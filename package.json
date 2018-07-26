@@ -1,0 +1,46 @@
+{
+  "name": "@funcmatic/funcmatic-cli",
+  "version": "2.3.1",
+  "description": "A command line interface to deploy and manage functions on funcmatic.com.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "bin": {
+    "funcmatic": "./index.js"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "aws-lambda",
+    "nodejs",
+    "serverless"
+  ],
+  "author": "Daniel Jhin Yoo <danieljyoo@gmail.com> (https://github.com/danieljyoo)",
+  "license": "MIT",
+  "homepage": "https://github.com/getfuncmatic/funcmatic-cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getfuncmatic/funcmatic-cli.git"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.16.0",
+    "funcmatic-cognito": "^1.0.0-alpha",
+    "funcmatic-s3": "^1.1.1",
+    "moment": "^2.22.2",
+    "parent-module": "^0.1.0",
+    "parent-package-json": "^2.0.1",
+    "read-pkg-up": "^4.0.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.279.1",
+    "jest": "^21.2.1"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
