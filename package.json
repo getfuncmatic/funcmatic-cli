@@ -25,15 +25,19 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "co": "^4.6.0",
-    "co-prompt": "^1.0.0",
+    "bigfiles-client-node": "file:../bigfiles-client-node",
+    "cli-table2": "^0.2.0",
+    "colors": "^1.3.1",
     "commander": "^2.16.0",
+    "dotenv": "^6.0.0",
+    "fs-extra": "^7.0.0",
     "funcmatic-cognito": "^1.0.0-alpha",
     "funcmatic-s3": "^1.1.1",
+    "inquirer": "^6.0.0",
     "moment": "^2.22.2",
     "parent-module": "^0.1.0",
-    "parent-package-json": "^2.0.1",
     "read-pkg-up": "^4.0.0",
+    "request": "^2.87.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

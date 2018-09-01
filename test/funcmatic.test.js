@@ -1,3 +1,5 @@
+require('dotenv').config()
+const path = require('path')
 const fs = require('fs')
 const auth = require('../lib/auth')
 const funcmatic = require('../lib/funcmatic')
@@ -26,7 +28,7 @@ beforeAll(async () => {
   claims = res.decoded
 })
 
-describe('Funcmatic API', () => {
+describe('Funcmatic Function APIs', () => {
   it ('should get a function from the id', async () => {
     var f = await funcmatic.getFromId(api, FUNCTION_TEST_ID)
     expect(f).toMatchObject({
@@ -71,6 +73,16 @@ describe('Funcmatic API', () => {
     fsaved.description = olddesc
     await funcmatic.save(api, fsaved)
   })
+  it ('should get the versions of a function', async () => {
+    var versions = await funcmatic.versions(api, FUNCTION_TEST_ID)
+    expect(versions.length).toBeGreaterThanOrEqual(1)
+    expect(versions[0]).toMatchObject({
+      version: "$LATEST"
+    })
+  })
+})
+
+describe('Funcmatic Copy APIs', () => {
   it ('should create a copy then delete it', async () => {
     var username = claims.preferred_username
     var fname = 'funcmatic-copy-test'
@@ -80,36 +92,26 @@ describe('Funcmatic API', () => {
       username: username,
       name: fname
     })
-
     var fdel = await funcmatic.remove(api, fcopy.id)
     expect(fdel).toMatchObject({
       username: username,
       name: fname
     })
   })
-  it ('should get the versions of a function', async () => {
-    var versions = await funcmatic.versions(api, FUNCTION_TEST_ID)
-    console.log(versions)
-    // expect(versions).toMatchObject({
-    //   username: username,
-    //   name: fname
-    // })
+})
+
+describe('Funcmatic Upload Zip', () => {
+  it ('should start and cancel a multipart upload', async () => {
+    var upload = await funcmatic.startMultipartUpload(api, FUNCTION_TEST_ID)
+    expect(upload).toMatchObject({
+      status: 'INITIATED',
+      id: expect.anything()
+    })
+    var cancelRes = await funcmatic.cancelMultipartUpload(api, upload.id)
+    expect(cancelRes).toBeTruthy()
   })
-  it ('should put a file using s3', async () => {
-    var res = await s3.put('testput.json', `{"hello":"worldput"}`, { 'Content-Type': 'application/json' })
-    console.log("PUT", res)
-  })
-  it ('should get a signed upload url', async () => {
-    var signed = await funcmatic.signedUploadUrl(api, FUNCTION_TEST_ID)
-    console.log("SIGNED", signed)
-  })
-  it ('should upload a zip file', async () => {
-    var path = `${__dirname}/index_98a63ec9-4b9b-493e-85be-bf00e080a4ab.zip`
-    var res = await funcmatic.upload(api, FUNCTION_TEST_ID, path)   
-    //console.log(res)
-  }, 30000)
-  it ('should deploy a function', async () => {
-    var res = await funcmatic.deploy(api, FUNCTION_TEST_ID)
-    console.log(res)
-  })
+  it ('should upload a large zipfile', async () => {
+    var fpath = path.join(__dirname, 'index.large.zip')
+    var res = await funcmatic.upload(api, FUNCTION_TEST_ID, fpath)
+  }, 10 * 60 * 1000)
 })
