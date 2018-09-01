@@ -1,7 +1,7 @@
 const funcmatic = require('../lib/funcmatic')
+const formatter = require('../lib/formatter')
 
 async function tag(user, api, fdraft, f, alias, version) {
-  console.log("TAG!")
   if (!user) {
     console.log(`Use 'funcmatic login' to first authenticate.`)
   }
@@ -9,9 +9,9 @@ async function tag(user, api, fdraft, f, alias, version) {
     console.log(`Function @${fdraft.username}/${fdraft.name} is not published`)
     return
   }
-  var ret = await funcmatic.untag(api, f.id, alias, version)
-  console.log("RET", ret)
-  return ret
+  var versions = await funcmatic.untag(api, f.id, alias, version)
+  console.log(formatter.versionsTable(versions))
+  return versions
 }
 
 module.exports = tag

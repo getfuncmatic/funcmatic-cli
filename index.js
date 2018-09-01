@@ -9,6 +9,7 @@ const funcmatic = require('./lib/funcmatic')
 const dotfolder = require('./lib/dotfolder')
 
 const { login, logout, whoami, token }  = require('./commands/login')
+const info = require('./commands/info')
 const versions = require('./commands/versions')
 const remove = require('./commands/remove')
 const package = require('./commands/package')
@@ -53,22 +54,18 @@ program
   })
 
 program
-  .command('meta')
+  .command('info')
   .action(async function(command, options) {
     handleProgramOptions(program)
     var { user, api, fdraft, f } = await getFunctions()
-    console.log("basedir", dotfolder.getBaseDir())
-    console.log("user", user)
-    console.log("api", api)
-    console.log("fdraft", fdraft)
-    console.log("f", f)
+    await info(user, api, fdraft, f)
   })
+
 program
   .command('package')
   .action(async function(command, options) {
     handleProgramOptions(program)
     var res = await package()
-    console.log(res)
   })
 
 program
@@ -77,7 +74,6 @@ program
     handleProgramOptions(program)
     var { user, api, fdraft, f } = await getFunctions()
     var res = await deploy(user, api, fdraft, f)
-    console.log(res)
   })
 
 program
@@ -101,7 +97,6 @@ program
   .action(async function(tagname, version) {
     handleProgramOptions(program)
     var { user, api, fdraft, f } = await getFunctions()
-    console.log("OPTIONS", tagname, version)
     await untag(user, api, fdraft, f, tagname, version)
   })
 
@@ -127,12 +122,6 @@ async function getFunctions() {
   var fdraft = getDraftedFunctionMetadata()
   var f = await getPublishedFunctionMetadata(api, fdraft)
 
-  if (f) {
-    console.log(`@${f.username}/${f.name} (${f.id})`.green)
-  } else if (fdraft) {
-    console.log(`@${fdraft.username}/${fdraft.name} (NEW)`.blue)
-  }
-  
   return { user, api, fdraft, f }
 }
 

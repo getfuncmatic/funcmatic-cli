@@ -2,18 +2,24 @@ const fs = require('fs-extra')
 const path = require('path')
 const spawn = require('child_process').spawn
 const dotfolder = require('../lib/dotfolder')
+const ora = require('ora')
 
 async function package() {
   var name = 'index.zip'
   var fpath = path.join(dotfolder.getBaseDir(), '.funcmatic', 'index.zip')
-  console.log(`Packaging function ...`)
+  
+  const spinner = ora('Recreate build directory').start()
   var builddir = await dotfolder.recreateBuildDir()
+  spinner.text = 'Copy package.json'
   await copyPackageJSON(dotfolder.getBaseDir(), builddir)
+  spinner.text = 'Run npm install --production'
   await npmInstallProduction(builddir)
+  spinner.text = 'Copy user code'
   await copyUserCode(dotfolder.getBaseDir(), builddir)
+  spinner.text = 'Zip build directory'
   await zipBuildDir(builddir, fpath)
   var stats = fs.statSync(fpath)
-  console.log(`... written to ${fpath} (${stats["size"]} bytes)`)
+  spinner.succeed(`Function packaged at ${fpath} (${stats["size"]} bytes)`.green)
   return { name, path: fpath, stats }
 }
 
@@ -50,7 +56,7 @@ async function copyUserCode(basedir, builddir) {
 
 async function npmInstallProduction(builddir) {
   var command = 'npm'
-  var args = [ 'install', '--production' ]
+  var args = [ 'install', '--production', '--silent' ]
   var options = {
     cwd: builddir,
     env: {
