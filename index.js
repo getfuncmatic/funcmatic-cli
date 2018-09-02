@@ -70,10 +70,10 @@ program
 
 program
   .command('deploy [tag]')
-  .action(async function(command, options) {
+  .action(async function(tag) {
     handleProgramOptions(program)
     var { user, api, fdraft, f } = await getFunctions()
-    var res = await deploy(user, api, fdraft, f)
+    var res = await deploy(user, api, fdraft, f, tag)
   })
 
 program
@@ -102,10 +102,10 @@ program
 
 program
   .command('remove [version]')
-  .action(async function(command, options) {
+  .action(async function(version) {
     handleProgramOptions(program)
     var { user, api, fdraft, f } = await getFunctions()
-    await remove(user, api, fdraft, f)
+    await remove(user, api, fdraft, f, version)
   })
 
 program.parse(process.argv);

@@ -1,0 +1,31 @@
+TODO:
+ 
+* Implement 'silent' mode on all commands (allows better composition of commands?)
+* Better formatting of CLI results rather than just return JSON API return values
+* Use 'npm link' to install dev version globally? (not sure how this works)
+
+----------
+BACKLOG:
+
+* BUG: Figure out how to deal with the '-d .' thing
+* More productive logging/monitoring (e.g. refine the paperclip plugin)
+* BUG: remove version with alias errors out with 500 error (need to have better error message)
+* Use inquirer to confirm if deleting entire function
+
+----------
+
+DONE:
+
+* Update package so that it excludes development dependencies
+* BUG: when deploying function the handler is set to 'wrapper.handler' instead of 'index.handler'
+* BUG: when deploying function it is of type 'standard' instead of 'raw'
+* BUG: Accessiblity is null when copy and not set to 'all'
+* Try deploying a new cold function and see if it is immediately invokable
+* Implement tag/untag to version
+* Use tables to show versions
+* Remove a specific version
+* BUG: funcmatic invoke API raw sets event to be be { event, context } rather than just straight event
+* Test using Funcmatic framework 
+* Reverse version order and don't show $LATEST
+* Implement "remove *" which removes all unaliases versions
+* Support deploy DEV (which tags talias after successful deploy)

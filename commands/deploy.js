@@ -1,11 +1,16 @@
 const ora = require('ora')
 
 const package = require('./package')
+const tag = require('./tag')
 const funcmatic = require('../lib/funcmatic')
 const formatter = require('../lib/formatter')
 
-async function deploy(user, api, fdraft, f) {
-  const spinner = ora(`Deploying @${f.username}/${f.name} ...`).start()
+async function deploy(user, api, fdraft, f, alias) {
+  var msg = `Deploying @${f.username}/${f.name}`
+  if (tag) {
+    msg = `Deploying @${f.username}/${f.name} with tag ${alias}`
+  }
+  const spinner = ora(msg).start()
   if (!f || !f.id) {
     // a function with this name does not yet exist for this user
     spinner.text = 'Initialize new function'
@@ -15,7 +20,6 @@ async function deploy(user, api, fdraft, f) {
     spinner.succeed()
   } 
 
-  
   var packageRes = await package()
   //var res = { path: '/Users/danieljhinyoo/Projects/scratch/funcmatic-cli-parent/.funcmatic/index.zip' }
 
@@ -25,9 +29,13 @@ async function deploy(user, api, fdraft, f) {
   spinner.start('Deploying function')
   var f = await funcmatic.deploy(api, f.id)
   spinner.succeed('Function deployed')
-  //var endpoint = `https://funcmatic.io/dev/${f.username}/${f.name}`
-  //console.log(`Your function is now deployed. Call it at endpoint ${endpoint}`)
-  console.log(formatter.functioninfo(f))
+  if (alias) {
+    var version = `${f.version}`
+    await tag(user, api, fdraft, f, alias, version)
+    spinner.succeed(`${alias} now tagged to version ${version}`)
+  }
+  spinner.stop()
+  console.log(formatter.functionTable(f))
   return f
 }
 
