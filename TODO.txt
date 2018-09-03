@@ -1,16 +1,16 @@
 TODO:
- 
+
+* More productive logging/monitoring (e.g. refine the paperclip plugin) 
+* Have user sign in again if token is close to expired
 * Implement 'silent' mode on all commands (allows better composition of commands?)
 * Better formatting of CLI results rather than just return JSON API return values
-* Use 'npm link' to install dev version globally? (not sure how this works)
 
 ----------
 BACKLOG:
 
-* BUG: Figure out how to deal with the '-d .' thing
-* More productive logging/monitoring (e.g. refine the paperclip plugin)
 * BUG: remove version with alias errors out with 500 error (need to have better error message)
 * Use inquirer to confirm if deleting entire function
+
 
 ----------
 
@@ -29,3 +29,19 @@ DONE:
 * Reverse version order and don't show $LATEST
 * Implement "remove *" which removes all unaliases versions
 * Support deploy DEV (which tags talias after successful deploy)
+* BUG: Figure out how to deal with the '-d .' thing
+
+
+NOTES:
+
+# NPM LINK
+
+Daniels-MacBook-Pro:funcmatic-cli danieljhinyoo$ sudo npm link
+Password:
+up to date in 3.073s
+/usr/local/bin/funcmatic -> /usr/local/lib/node_modules/@funcmatic/funcmatic-cli/index.js
+/usr/local/lib/node_modules/@funcmatic/funcmatic-cli -> /Users/danieljhinyoo/Projects/funcmatic/funcmatic-cli
+
+Daniels-MacBook-Pro:funcmatic-cli-parent danieljhinyoo$ npm link @funcmatic/funcmatic-cli
+/Users/danieljhinyoo/Projects/scratch/funcmatic-cli-parent/node_modules/@funcmatic/funcmatic-cli -> /usr/local/lib/node_modules/@funcmatic/funcmatic-cli -> /Users/danieljhinyoo/Projects/funcmatic/funcmatic-cli
+

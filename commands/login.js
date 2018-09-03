@@ -11,7 +11,7 @@ const questions = [
   { type: 'password', name: 'password', message: 'Password:' }
 ]
 
-async function login(program, command, options) {
+async function login() {
   var answers = await inquirer.prompt(questions)
   // how to reset to normal from italics?
   console.log('')

@@ -57,6 +57,10 @@ program
   .command('info')
   .action(async function(command, options) {
     handleProgramOptions(program)
+    if (promptLogin()) {
+      var u = await login(program, command, options)
+      // TODO: need to handle if login fails
+    }
     var { user, api, fdraft, f } = await getFunctions()
     await info(user, api, fdraft, f)
   })
@@ -72,6 +76,10 @@ program
   .command('deploy [tag]')
   .action(async function(tag) {
     handleProgramOptions(program)
+    if (promptLogin()) {
+      var u = await login(program, command, options)
+      // TODO: need to handle if login fails
+    }
     var { user, api, fdraft, f } = await getFunctions()
     var res = await deploy(user, api, fdraft, f, tag)
   })
@@ -80,6 +88,10 @@ program
   .command('versions')
   .action(async function(command, options) {
     handleProgramOptions(program)
+    if (promptLogin()) {
+      var u = await login(program, command, options)
+      // TODO: need to handle if login fails
+    }
     var { user, api, fdraft, f } = await getFunctions()
     await versions(user, api, fdraft, f)
   })
@@ -88,6 +100,10 @@ program
   .command('tag <name> <version>')
   .action(async function(tagname, version) {
     handleProgramOptions(program)
+    if (promptLogin()) {
+      var u = await login(program, command, options)
+      // TODO: need to handle if login fails
+    }
     var { user, api, fdraft, f } = await getFunctions()
     await tag(user, api, fdraft, f, tagname, version)
   })
@@ -96,6 +112,10 @@ program
   .command('untag <name> <version>')
   .action(async function(tagname, version) {
     handleProgramOptions(program)
+    if (promptLogin()) {
+      var u = await login(program, command, options)
+      // TODO: need to handle if login fails
+    }
     var { user, api, fdraft, f } = await getFunctions()
     await untag(user, api, fdraft, f, tagname, version)
   })
@@ -104,6 +124,10 @@ program
   .command('remove [version]')
   .action(async function(version) {
     handleProgramOptions(program)
+    if (promptLogin()) {
+      var u = await login(program, command, options)
+      // TODO: need to handle if login fails
+    }
     var { user, api, fdraft, f } = await getFunctions()
     await remove(user, api, fdraft, f, version)
   })
@@ -184,6 +208,26 @@ async function findPublishedFunction(api, fids) {
   return f
 }
 
+function expires() {
+  var user = dotfolder.read('user.json')
+  if (!user || !user.decoded) {
+    return { 
+      expiresAt: new Date(0),
+      expiresIn: -1
+    } 
+  }
+  var expiresAt = new Date(user.decoded.exp * 1000)
+  var expiresIn = expiresAt.getTime() - (new Date()).getTime()
+  return {
+    expiresAt, expiresIn
+  }
+}
+
+function promptLogin() {
+  var threshold = 5 * 60 * 1000 // 5 min before expiring
+  var { expiresAt, expiresIn } = expires()
+  return (expiresIn <= threshold) 
+}
 
 // program
 //   .arguments('<command>')

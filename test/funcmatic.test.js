@@ -8,15 +8,6 @@ const axios = require('axios')
 // danieljyoo/funcmatic-unit-test
 const FUNCTION_TEST_ID = 'a2a3a9d4-a1f2-47d3-b123-72e47cff933e'
 
-// we only use this in test to get a signed url
-// an actual lambda api must be implemented to get it
-// for real
-var AWS = require('aws-sdk');
-AWS.config.update({region: 'us-west-2'});
-const s3 = require('funcmatic-s3')(new AWS.S3(), {
-  Bucket: "test.funcmatic.com"
-})
-
 var api = null
 var claims = null
 
