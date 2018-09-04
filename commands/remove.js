@@ -1,4 +1,5 @@
 const ora = require('ora')
+const inquirer = require('inquirer')
 
 const funcmatic = require('../lib/funcmatic')
 const formatter = require('../lib/formatter')
@@ -9,6 +10,11 @@ async function remove(user, api, fdraft, f, version) {
   }
   if (!version) {
     // should ask for confirmation here
+    console.log('Remove function and all versions'.red)
+    var res = await inquirer.prompt([ { type: 'confirm', name: 'confirm', message: 'Are you sure?', default: false  } ])
+    if (!res.confirm) {
+      return 
+    }
     console.log(`Removing function ${f.name} (${f.id}) ...`)
     var res = await funcmatic.remove(api, f.id)
     console.log('... done')
