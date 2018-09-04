@@ -7,8 +7,8 @@ const dotfolder = require('../lib/dotfolder')
 const formatter = require('../lib/formatter')
 
 const questions = [
-  { type: 'input', name: 'username', message: 'Username:' },
-  { type: 'password', name: 'password', message: 'Password:' }
+  { type: 'input', name: 'username', message: 'Email:' },
+  { type: 'password', name: 'password', message: 'Password:', mask: '*' }
 ]
 
 async function login() {
