@@ -1,6 +1,6 @@
 {
   "name": "@funcmatic/funcmatic-cli",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "A command line interface to deploy and manage functions on funcmatic.com.",
   "main": "index.js",
   "scripts": {

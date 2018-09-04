@@ -8,7 +8,6 @@ TODO:
 BACKLOG:
 
 * BUG: remove version with alias errors out with 500 error (need to have better error message)
-* Use inquirer to confirm if deleting entire function
 
 ----------
 
@@ -30,6 +29,9 @@ DONE:
 * BUG: Figure out how to deal with the '-d .' thing
 * Have user sign in again if token is close to expired
 * BUG: italicized text console after login using masked inquirer type
+* Use inquirer to confirm if deleting entire function
+
+-----------
 
 NOTES:
 
